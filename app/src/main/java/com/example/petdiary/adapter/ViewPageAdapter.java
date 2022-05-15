@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
-import com.example.petdiary.Data;
-import com.example.petdiary.Main_Expand_ImageView;
-import com.example.petdiary.OnSingleClickListener;
+import com.example.petdiary.data.Data;
+import com.example.petdiary.activity.imageViewActivity;
+import com.example.petdiary.util.OnSingleClickListener;
 import com.example.petdiary.R;
 
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class ViewPageAdapter extends PagerAdapter {
     }
 
     private void goPost(int position, final Data arrayList) {
-        final Intent intent = new Intent(context, Main_Expand_ImageView.class);
+        final Intent intent = new Intent(context, imageViewActivity.class);
 
         intent.putExtra("currentItem", position);
         intent.putExtra("imageUrl1", arrayList.getImageUrl1());

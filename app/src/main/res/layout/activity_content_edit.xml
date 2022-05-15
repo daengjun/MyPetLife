@@ -25,7 +25,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/button_border_color">
+                android:background="@drawable/button_shape_drawable_basic">
 
                 <Spinner
                     android:spinnerMode="dropdown"
@@ -46,13 +46,13 @@
                     app:cardCornerRadius="10dp"
                     android:id="@+id/cardView1"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/button">
+                    android:background="@drawable/button_shapedrawable_padding">
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="300dp"
                         android:background="@drawable/cornerradius_color"
-                        android:src="@drawable/ic_baseline_add_24"
+                        android:src="@drawable/ic_add"
                         android:id="@+id/postImg1"/>
 
                 </androidx.cardview.widget.CardView>
@@ -90,7 +90,7 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:background="@drawable/cornerradius_color"
-                            android:src="@drawable/ic_baseline_add_24"
+                            android:src="@drawable/ic_add"
                             android:id="@+id/postImg2"/>
 
                     </androidx.cardview.widget.CardView>
@@ -115,13 +115,13 @@
                         android:layout_height="60dp"
                         app:cardCornerRadius="10dp"
                         android:id="@+id/cardView3"
-                        android:background="@drawable/button">
+                        android:background="@drawable/button_shapedrawable_padding">
 
                         <ImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:background="@drawable/cornerradius_color"
-                            android:src="@drawable/ic_baseline_add_24"
+                            android:src="@drawable/ic_add"
                             android:id="@+id/postImg3"/>
 
                     </androidx.cardview.widget.CardView>
@@ -146,13 +146,13 @@
                         android:layout_height="60dp"
                         app:cardCornerRadius="10dp"
                         android:id="@+id/cardView4"
-                        android:background="@drawable/button">
+                        android:background="@drawable/button_shapedrawable_padding">
 
                         <ImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:background="@drawable/cornerradius_color"
-                            android:src="@drawable/ic_baseline_add_24"
+                            android:src="@drawable/ic_add"
                             android:id="@+id/postImg4"/>
 
                     </androidx.cardview.widget.CardView>
@@ -177,13 +177,13 @@
                         android:layout_height="60dp"
                         app:cardCornerRadius="10dp"
                         android:id="@+id/cardView5"
-                        android:background="@drawable/button">
+                        android:background="@drawable/button_shapedrawable_padding">
 
                         <ImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:background="@drawable/cornerradius_color"
-                            android:src="@drawable/ic_baseline_add_24"
+                            android:src="@drawable/ic_add"
                             android:id="@+id/postImg5"/>
 
                     </androidx.cardview.widget.CardView>
@@ -211,7 +211,7 @@
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
                     android:lines="6"
-                    android:background="@drawable/textbox2"
+                    android:background="@drawable/button_shapedrawable_thick_textbox"
                     android:hint="내용을 입력해주세요."
                     android:layout_centerInParent="true"
                     android:maxLength="100"/>
@@ -235,14 +235,14 @@
                 android:layout_height="wrap_content"
                 android:text="등록"
                 android:id="@+id/postButton"
-                android:background="@drawable/button3"/>
+                android:background="@drawable/button_shapedrawable_thick"/>
 
         </LinearLayout>
 
     </ScrollView>
 
     <include
-        layout="@layout/view_loader"
+        layout="@layout/loading_prograssbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>

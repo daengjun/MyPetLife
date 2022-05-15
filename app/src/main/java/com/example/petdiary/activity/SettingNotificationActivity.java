@@ -1,19 +1,18 @@
 package com.example.petdiary.activity;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.example.petdiary.PreferenceManager;
+import com.example.petdiary.util.PreferenceManager;
 import com.example.petdiary.R;
 import com.google.firebase.messaging.FirebaseMessaging;
+
 
 public class SettingNotificationActivity extends AppCompatActivity {
 
@@ -127,8 +126,6 @@ public class SettingNotificationActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

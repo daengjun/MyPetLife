@@ -1,5 +1,6 @@
 package com.example.petdiary.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +16,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.petdiary.Data;
-import com.example.petdiary.Expand_ImageView;
+import com.example.petdiary.data.Data;
+import com.example.petdiary.util.Expand_ImageView;
 import com.example.petdiary.R;
-import com.example.petdiary.ui.AnimationUtil;
+import com.example.petdiary.util.callBackListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,11 +35,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.CustomViewHolder> implements com.example.petdiary.calbacklistener {
+public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.CustomViewHolder> implements callBackListener {
 
     private ArrayList<Data> arrayList;
     private Context context;
-    com.example.petdiary.calbacklistener callbacklistenter;
+    callBackListener callbacklistenter;
     ViewPageAdapterSub viewPageAdapter;
     ViewPager viewPager;
     TextView textView;
@@ -50,7 +50,7 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
 
 
 
-    public CustomAdapterSub(ArrayList<Data> arrayList, Context context,com.example.petdiary.calbacklistener callbacklistenter) {
+    public CustomAdapterSub(ArrayList<Data> arrayList, Context context, callBackListener callbacklistenter) {
         this.arrayList = arrayList;
         this.context = context;
         this.callbacklistenter = callbacklistenter;
@@ -67,11 +67,10 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
 
     }
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         viewPager = (ViewPager) holder.itemView.findViewById(R.id.main_image);
         textView = (TextView) holder.itemView.findViewById(R.id.sub_textview);
         cardView = (CardView) holder.itemView.findViewById(R.id.sub_cardView);
-        
 
 
         if(!arrayList.get(position).getImageUrl1().equals("https://firebasestorage.googleapis.com/v0/b/petdiary-794c6.appspot.com/o/images%2Fempty.png?alt=media&token=c41b1cc0-d610-4964-b00c-2638d4bfd8bd")) {
@@ -96,30 +95,25 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
                     }
                 }
             });
-
         }
-
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) holder.itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int deviceWidth = displayMetrics.widthPixels;  // 핸드폰의 가로 해상도를 구함.
-        // int deviceHeight = displayMetrics.heightPixels;  // 핸드폰의 세로 해상도를 구함.
+        int deviceWidth = displayMetrics.widthPixels;
         deviceWidth = (deviceWidth-60) / 3;
-        holder.itemView.getLayoutParams().width = deviceWidth;  // 아이템 뷰의 세로 길이를 구한 길이로 변경
-        holder.itemView.getLayoutParams().height = deviceWidth;  // 아이템 뷰의 세로 길이를 구한 길이로 변경
-        holder.itemView.requestLayout(); // 변경 사항 적용
+        holder.itemView.getLayoutParams().width = deviceWidth;
+        holder.itemView.getLayoutParams().height = deviceWidth;
+        holder.itemView.requestLayout();
 
     }
 
     @Override
     public int getItemCount() {
-        // 삼항 연산자
         return (arrayList != null ? arrayList.size() : 0);
     }
 
     @Override
     public void refresh(boolean check) {
-
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -139,7 +133,6 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
         mainSource.clear();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("friend/"+uid);
-        Log.d("dsd", "goPost: arrayLists.getUid()"+arrayLists.getUid());
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -156,8 +149,6 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
                                     intent.putExtra("bookmark", "unchecked");
                                     for (final QueryDocumentSnapshot document : task.getResult()) {
                                         if(arrayLists.getPostID().equals(document.getData().get("postID").toString())){
-                                            Log.d("ㅇㄴㅇ", "onComplete: 여기탐2");
-
                                             intent.putExtra("bookmark", "checked");
                                             break;
                                         }
@@ -173,7 +164,6 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
                                                         for (final QueryDocumentSnapshot document : task.getResult()) {
                                                             if(arrayLists.getPostID().equals(document.getData().get("postID").toString())){
                                                                 intent.putExtra("postLike", "checked");
-                                                                Log.d("ㅇㄴㅇ", "onComplete: 여기탐3");
                                                                 break;
                                                             }
                                                         }
@@ -184,9 +174,6 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
                                                                 break;
                                                             }
                                                         }
-                                                        Log.d("ㅇㄴ", "onComplete: 여깈ㅋㅋ");
-                                                        Log.d("ds", "ㄴ " + (mainSource!=null ? mainSource.size() : "널값"));
-
                                                         if (chkFriend) {
                                                             intent.putExtra("friend", "checked");
                                                         } else {
@@ -209,7 +196,7 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                         context.startActivity(intent);
 
-                                                        Expand_ImageView.setlistener(callbacklistenter);
+                                                        Expand_ImageView.setListener(callbacklistenter);
                                                     } else {
                                                         Log.d("###", "Error getting documents: ", task.getException());
                                                     }

@@ -36,7 +36,7 @@ public class SettingCustomerActivity extends AppCompatActivity {
     private String date;
     String myEmail;
     String selectOption;
-    EditText Inputemail;
+    EditText inPutEmail;
 
     TextView contentsLengthTextView;
     EditText content;
@@ -59,12 +59,10 @@ public class SettingCustomerActivity extends AppCompatActivity {
             selectOption = "";
         }
 
-        Log.d("dangjun", "dangjun 넘어온 email 값  : " + myEmail + " 선택된 옵션 : " + selectOption);
-
-        Inputemail  = findViewById(R.id.email);
+        inPutEmail = findViewById(R.id.email);
         
         /* 게시물 신고하기로 들어왔을 경우에 이메일 자동입력 */
-        if(!myEmail.equals("")) { Inputemail.setText(myEmail);}
+        if(!myEmail.equals("")) { inPutEmail.setText(myEmail);}
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

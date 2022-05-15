@@ -42,7 +42,7 @@
                 android:id="@+id/btn_unblock"
                 android:layout_width="70dp"
                 android:layout_height="40dp"
-                android:background="@drawable/button2"
+                android:background="@drawable/button_shapedrawable_padding_basic"
                 android:text="차단해제"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

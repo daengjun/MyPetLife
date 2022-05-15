@@ -13,12 +13,13 @@ import com.example.petdiary.R;
 import com.example.petdiary.activity.MainActivity;
 import com.example.petdiary.activity.SettingBlockFriendsActivity;
 import com.example.petdiary.activity.SettingBookMarkActivity;
+import com.example.petdiary.util.callBackListener;
 
-public class FragmentContentMain extends Fragment implements com.example.petdiary.calbacklistener {
+public class FragmentContentMain extends Fragment implements callBackListener {
 
     ViewGroup viewGroup;
     boolean contentCheck;
-    boolean oncrate = false;
+    boolean onCreate = false;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +27,14 @@ public class FragmentContentMain extends Fragment implements com.example.petdiar
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_content_main, container, false);
-        oncrate = true;
-        SettingBookMarkActivity.setlistener(this);
+        onCreate = true;
+        SettingBookMarkActivity.setListener(this);
         SettingBlockFriendsActivity.setlistener(this);
         return viewGroup;
     }
 
     public void refresh(boolean check){
 
-        /*메인에서만 check가 false면 게시글 삭제 , 북마크 최신업데이트 true면 게시글 수정 업데이트 */
         if(check==false){
             ((MainActivity)getActivity()).refresh(check);
         }
@@ -44,7 +44,7 @@ public class FragmentContentMain extends Fragment implements com.example.petdiar
     @Override
     public void onResume() {
         super.onResume();
-        if(oncrate){
+        if(onCreate){
             if(contentCheck){
                 ((MainActivity)getActivity()).refresh(contentCheck);
                 contentCheck = false;

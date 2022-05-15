@@ -13,11 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
-import com.example.petdiary.Data;
-import com.example.petdiary.Expand_ImageView;
-import com.example.petdiary.info.FriendInfo;
-import com.example.petdiary.OnSingleClickListener;
+import com.example.petdiary.data.Data;
+import com.example.petdiary.util.Expand_ImageView;
+import com.example.petdiary.util.OnSingleClickListener;
 import com.example.petdiary.R;
+import com.example.petdiary.util.callBackListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class ViewPageAdapterSub extends PagerAdapter implements com.example.petdiary.calbacklistener {
+public class ViewPageAdapterSub extends PagerAdapter implements callBackListener {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String uid = user.getUid();
@@ -41,12 +41,12 @@ public class ViewPageAdapterSub extends PagerAdapter implements com.example.petd
     private LayoutInflater inflater;
     private Context context;
     private Data arrayList;
-    com.example.petdiary.calbacklistener calbacklistener;
+    callBackListener calbacklistener;
     private DatabaseReference mReference;
     private DatabaseReference mDatabase;
     private FirebaseDatabase firebaseDatabase;
 
-    public ViewPageAdapterSub(Data arrayList, String uri1, Context context,com.example.petdiary.calbacklistener calbacklistener) {
+    public ViewPageAdapterSub(Data arrayList, String uri1, Context context, callBackListener calbacklistener) {
         if (uri1.length() > 0) {
             images.add(uri1);
         }
@@ -57,7 +57,6 @@ public class ViewPageAdapterSub extends PagerAdapter implements com.example.petd
 
     @Override
     public int getCount() {
-        //return images.length;
         return images.size();
     }
 
@@ -77,11 +76,9 @@ public class ViewPageAdapterSub extends PagerAdapter implements com.example.petd
         imageView.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Log.d("ㅇ", "onSingleClick: 눌림");
                 goPost(arrayList);
             }
         });
-
 
         container.addView(v);
         return v;
@@ -97,7 +94,6 @@ public class ViewPageAdapterSub extends PagerAdapter implements com.example.petd
         mainSource.clear();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("friend/"+uid);
-        Log.d("ds", "goPost: uid" +uid);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -162,7 +158,7 @@ public class ViewPageAdapterSub extends PagerAdapter implements com.example.petd
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                         context.startActivity(intent);
 
-                                                        Expand_ImageView.setlistener(calbacklistener);
+                                                        Expand_ImageView.setListener(calbacklistener);
                                                     } else {
                                                         Log.d("###", "Error getting documents: ", task.getException());
                                                     }

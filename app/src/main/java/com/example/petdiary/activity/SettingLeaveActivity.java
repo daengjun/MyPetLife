@@ -35,13 +35,13 @@ public class SettingLeaveActivity extends AppCompatActivity {
 
     }
 
-    View.OnClickListener onClickListener = new View.OnClickListener(){
+    View.OnClickListener onClickListener = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             final String uid = user.getUid();
-            switch(v.getId()){
+            switch (v.getId()) {
                 case R.id.leaveButton:
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                     user.delete()
@@ -128,7 +128,7 @@ public class SettingLeaveActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home ){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }

@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button"
+            android:background="@drawable/button_shapedrawable_padding"
             android:hint="답변을 받을 이메일 주소를 입력해주세요."
             android:inputType="textEmailAddress"
             android:padding="10dp"
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button">
+            android:background="@drawable/button_shapedrawable_padding">
 
             <Spinner
                 android:id="@+id/contactTypesSpinner"
@@ -97,7 +97,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/button"
+            android:background="@drawable/button_shapedrawable_padding"
             android:lines="10"
             android:maxLength="100"/>
 
@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/button2"
+            android:background="@drawable/button_shapedrawable_padding_basic"
             android:padding="5dp"
             android:text="등록" />
 
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@drawable/button2"
+            android:background="@drawable/button_shapedrawable_padding_basic"
             android:padding="5dp"
             android:text="취소" />
 
@@ -147,7 +147,7 @@
     </LinearLayout>
 
     <include
-        layout="@layout/view_loader"
+        layout="@layout/loading_prograssbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />

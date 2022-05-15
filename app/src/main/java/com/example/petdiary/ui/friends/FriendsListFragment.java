@@ -6,26 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.petdiary.Chat;
-import com.example.petdiary.ItemTouchHelperCallback;
-import com.example.petdiary.Person;
-import com.example.petdiary.PersonAdapter;
+import com.example.petdiary.util.ItemTouchHelperCallback;
+import com.example.petdiary.data.Person;
+import com.example.petdiary.adapter.PersonAdapter;
 import com.example.petdiary.R;
-import com.example.petdiary.activity.ChatActivity;
 import com.example.petdiary.activity.MainActivity;
-import com.example.petdiary.ui.chat.ChatListFragment;
+import com.example.petdiary.util.callBackListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,7 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class FriendsListFragment extends Fragment implements com.example.petdiary.calbacklistener{
+public class FriendsListFragment extends Fragment implements callBackListener {
 
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;

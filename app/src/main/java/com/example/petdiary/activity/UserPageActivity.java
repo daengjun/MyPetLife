@@ -1,41 +1,33 @@
 package com.example.petdiary.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.example.petdiary.Data;
-import com.example.petdiary.Kon_MypageAdapter;
-import com.example.petdiary.Kon_Mypage_petAdapter;
-import com.example.petdiary.PetData;
+import com.example.petdiary.data.Data;
+import com.example.petdiary.adapter.Kon_Mypage_petAdapter;
+import com.example.petdiary.data.PetData;
 import com.example.petdiary.R;
-import com.example.petdiary.RecyclerDecoration;
-import com.example.petdiary.calbacklistener;
+import com.example.petdiary.util.RecyclerDecoration;
+import com.example.petdiary.util.callBackListener;
 import com.example.petdiary.fragment.FragmentMy;
 import com.example.petdiary.info.FriendInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,12 +44,10 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-import static android.app.Activity.RESULT_OK;
-
-public class UserPageActivity extends AppCompatActivity implements calbacklistener {
+public class UserPageActivity extends AppCompatActivity implements callBackListener {
 
     private static final String TAG = "UserPage";
-    private static calbacklistener calbacklistener;
+    private static callBackListener calbacklistener;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private TextView profileName;
@@ -71,7 +61,7 @@ public class UserPageActivity extends AppCompatActivity implements calbacklisten
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference mDatabase;
 
-    Map<String, String> userInfo = new HashMap<>();   // 이거 여기서 선언할게 아니라 받아와야함
+    Map<String, String> userInfo = new HashMap<>();
     //Map<String, String> petInfo = new HashMap<>();
     ArrayList<Data> postList = new ArrayList<Data>();
     ArrayList<Data> selectedPostList = new ArrayList<Data>();
@@ -367,7 +357,7 @@ public class UserPageActivity extends AppCompatActivity implements calbacklisten
         recyclerView.addItemDecoration(spaceDecoration);
     }
 
-    public static void setlistener(calbacklistener listener){
+    public static void setlistener(callBackListener listener){
 
         calbacklistener = listener;
 

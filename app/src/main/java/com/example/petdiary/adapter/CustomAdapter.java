@@ -1,5 +1,8 @@
 package com.example.petdiary.adapter;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -11,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -23,18 +25,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.example.petdiary.activity.MainActivity;
+import com.example.petdiary.activity.SettingCustomerActivity;
 import com.example.petdiary.activity.UserPageActivity;
-import com.example.petdiary.calbacklistener;
+import com.example.petdiary.util.callBackListener;
 import com.example.petdiary.info.BlockFriendInfo;
 import com.example.petdiary.info.BookmarkInfo;
-import com.example.petdiary.Comment;
-import com.example.petdiary.Data;
+import com.example.petdiary.activity.CommentActivity;
+import com.example.petdiary.data.Data;
 import com.example.petdiary.info.FriendInfo;
 import com.example.petdiary.info.PostLikeInfo;
 import com.example.petdiary.R;
 import com.example.petdiary.activity.ContentEditActivity;
-import com.example.petdiary.ui.AnimationUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,21 +56,18 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.concurrent.Executor;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> implements calbacklistener {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> implements callBackListener {
 
     private ArrayList<Data> arrayList;
     private Context context;
     private Button Comment_btn;
     private Button onPopupButton;
     Activity activity;
-    FirebaseStorage storage;
-//    ViewPageAdapter viewPageAdapter;
     ViewPageAdapterDetail viewPageAdapter;
     ViewPager viewPager;
     WormDotsIndicator wormDotsIndicator;
-    calbacklistener listener;
+    callBackListener listener;
     private FirebaseDatabase firebaseDatabase;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String uid = user.getUid();
@@ -77,16 +75,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     private boolean checkFriend = true;
 
-    //어댑터에서 액티비티 액션을 가져올 때 context가 필요한데 어댑터에는 context가 없다.
-    //선택한 액티비티에 대한 context를 가져올 때 필요하다.
-    public CustomAdapter(ArrayList<Data> arrayList, Context context,calbacklistener listener,Activity activity) {
+    public CustomAdapter(ArrayList<Data> arrayList, Context context, callBackListener listener, Activity activity) {
         this.arrayList = arrayList;
         this.context = context;
         this.listener = listener;
         this.activity = activity;
     }
 
-    public void setListener(calbacklistener listener) {
+    public void setListener(callBackListener listener) {
         this.listener = listener;
     }
 
@@ -104,11 +100,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         return holder;
     }
 
+    // 최근 수정
     @Override
-    public void onBindViewHolder(@NonNull final CustomViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final CustomViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
 
-        String empty_Url="https://firebasestorage.googleapis.com/v0/b/petdiary-794c6.appspot.com/o/images%2Fempty.png?alt=media&token=c41b1cc0-d610-4964-b00c-2638d4bfd8bd";
+        String empty_Url = "https://firebasestorage.googleapis.com/v0/b/petdiary-794c6.appspot.com/o/images%2Fempty.png?alt=media&token=c41b1cc0-d610-4964-b00c-2638d4bfd8bd";
         String first_imageData = arrayList.get(position).getImageUrl1();
         View first_border = (View) holder.itemView.findViewById(R.id.first_Square);
         View second_border = (View) holder.itemView.findViewById(R.id.second_Square);
@@ -116,12 +113,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         wormDotsIndicator = (WormDotsIndicator) holder.itemView.findViewById(R.id.worm_dots_indicator);
 
         viewPager = (ViewPager) holder.itemView.findViewById(R.id.main_image);
-//        viewPageAdapter = new ViewPageAdapter(arrayList.get(position), arrayList.get(position).getImageUrl1(), arrayList.get(position).getImageUrl2(),
-//                arrayList.get(position).getImageUrl3(), arrayList.get(position).getImageUrl4(), arrayList.get(position).getImageUrl5(), context);
 
         viewPageAdapter = new ViewPageAdapterDetail(true, arrayList.get(position).getImageUrl1(), arrayList.get(position).getImageUrl2(),
                 arrayList.get(position).getImageUrl3(), arrayList.get(position).getImageUrl4(), arrayList.get(position).getImageUrl5(), context);
-
 
 
         viewPager.setAdapter(viewPageAdapter);
@@ -138,8 +132,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             second_border.setVisibility(View.GONE);
             hidden_border.setVisibility(View.VISIBLE);
 
-        }
-        else {
+        } else {
 
             viewPager.setVisibility(View.VISIBLE);
             wormDotsIndicator.setViewPager(viewPager);
@@ -180,7 +173,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     if (document != null) {
                         if (document.exists()) {
                             profileImg[0] = document.getData().get("profileImg").toString();
-                            if(profileImg[0].length() > 0){
+                            if (profileImg[0].length() > 0) {
                                 Glide.with(context).load(profileImg[0]).centerCrop().override(500).into(holder.profileImage);
                             } else {
                                 holder.profileImage.setImageResource(R.drawable.icon_person);
@@ -195,12 +188,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             }
         });
 
-        if(arrayList.get(position).getBookmark()){
+        if (arrayList.get(position).getBookmark()) {
             holder.bookmark_button.setChecked(true);
         } else {
             holder.bookmark_button.setChecked(false);
         }
-        if(arrayList.get(position).getLike()){
+        if (arrayList.get(position).getLike()) {
             holder.Like_button.setChecked(true);
         } else {
             holder.Like_button.setChecked(false);
@@ -210,7 +203,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         Comment_btn.findViewById(R.id.Comment_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Intent intent = new Intent(context, Comment.class);
+                Intent intent = new Intent(context, CommentActivity.class);
 
                 intent.putExtra("postID", arrayList.get(position).getPostID());
                 intent.putExtra("image", arrayList.get(position).getImageUrl1());
@@ -265,7 +258,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                     intent.putExtra("postID", arrayList.get(position).getPostID());
 
                                     context.startActivity(intent);
-                                    ContentEditActivity.setlistener(listener);
+                                    ContentEditActivity.setListener(listener);
 
                                     Toast.makeText(view.getContext(), "Edit", Toast.LENGTH_SHORT).show();
                                     break;
@@ -276,7 +269,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
 
                                     FirebaseDynamicLinks.getInstance().createDynamicLink()
-                                            .setLink(Uri.parse("https://www.jun.com/"+arrayList.get(position).getPostID()))
+                                            .setLink(Uri.parse("https://www.jun.com/" + arrayList.get(position).getPostID()))
                                             .setDomainUriPrefix("https://MyPetStory.page.link")
                                             .setAndroidParameters(
                                                     new DynamicLink.AndroidParameters.Builder("com.example.petdiary")
@@ -339,7 +332,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                     firebaseDatabase = FirebaseDatabase.getInstance();
                     final CharSequence[][] info = new CharSequence[1][1];
-                    if(checkFriend){
+                    if (checkFriend) {
                         info[0] = new CharSequence[]{"친구삭제", "신고하기", "사용자 차단"};
                     } else {
                         info[0] = new CharSequence[]{"친구추가", "신고하기", "사용자 차단"};
@@ -351,25 +344,29 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 0:
-                                    if(checkFriend){
-                                        FriendsDelete(view,position);
+                                    if (checkFriend) {
+                                        FriendsDelete(view, position);
                                     } else {
                                         DatabaseReference friend = firebaseDatabase.getReference("friend").child(user.getUid() + "/" + arrayList.get(position).getUid());
                                         Hashtable<String, String> numbers = new Hashtable<String, String>();
-                                        numbers.put("message","없음");
+                                        numbers.put("message", "없음");
                                         friend.setValue(numbers);
                                         checkFriend = true;
                                         Toast.makeText(context, "친구를 추가하였습니다.", Toast.LENGTH_SHORT).show();
                                     }
                                     break;
                                 case 1:
-                                    //Toast.makeText(view.getContext(), "신고하기", Toast.LENGTH_SHORT).show();
-                                    break;
+                                    Intent intent = new Intent(context, SettingCustomerActivity.class);
+
+                                    intent.putExtra("email", user.getEmail());
+                                    intent.putExtra("declaration", "신고");
+
+                                    context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));                                    break;
                                 case 2:
                                     BlockFriendInfo blockFriendInfo = new BlockFriendInfo();
                                     blockFriendInfo.setFriendUid(arrayList.get(position).getUid());
                                     FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                    db.collection("blockFriends/"+user.getUid()+"/friends").document(arrayList.get(position).getUid()).set(blockFriendInfo)
+                                    db.collection("blockFriends/" + user.getUid() + "/friends").document(arrayList.get(position).getUid()).set(blockFriendInfo)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
@@ -416,7 +413,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     }
 
 
-
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         TextView content;
         TextView nickName;
@@ -441,9 +437,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     int pos = getAdapterPosition();
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                     BookmarkInfo bookmarkInfo = new BookmarkInfo();
-                    if(((CheckBox)view).isChecked()){
+                    if (((CheckBox) view).isChecked()) {
                         bookmarkInfo.setPostID(arrayList.get(pos).getPostID());
-                        db.collection("user-checked/"+user.getUid()+"/bookmark").document(arrayList.get(pos).getPostID()).set(bookmarkInfo)
+                        db.collection("user-checked/" + user.getUid() + "/bookmark").document(arrayList.get(pos).getPostID()).set(bookmarkInfo)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -456,7 +452,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                     }
                                 });
                     } else {
-                        db.collection("user-checked/"+user.getUid()+"/bookmark").document(arrayList.get(pos).getPostID())
+                        db.collection("user-checked/" + user.getUid() + "/bookmark").document(arrayList.get(pos).getPostID())
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -480,9 +476,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                     final int pos = getAdapterPosition();
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                     PostLikeInfo postLikeInfo = new PostLikeInfo();
-                    if(((CheckBox)view).isChecked()){
+                    if (((CheckBox) view).isChecked()) {
                         postLikeInfo.setPostID(arrayList.get(pos).getPostID());
-                        db.collection("user-checked/"+user.getUid()+"/like").document(arrayList.get(pos).getPostID()).set(postLikeInfo)
+                        db.collection("user-checked/" + user.getUid() + "/like").document(arrayList.get(pos).getPostID()).set(postLikeInfo)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -493,7 +489,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
                                         int favoritePlus = arrayList.get(pos).getFavoriteCount();
 
-                                        favoritePlus =favoritePlus+1;
+                                        favoritePlus = favoritePlus + 1;
 
                                         arrayList.get(pos).setFavoriteCount(favoritePlus);
 
@@ -525,13 +521,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                     }
                                 });
                     } else {
-                        db.collection("user-checked/"+user.getUid()+"/like").document(arrayList.get(pos).getPostID())
+                        db.collection("user-checked/" + user.getUid() + "/like").document(arrayList.get(pos).getPostID())
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
 
-                                //    if(arrayList.get(pos).getFavoriteCount()!=0) {
+                                        //    if(arrayList.get(pos).getFavoriteCount()!=0) {
                                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                                         DocumentReference washingtonRef = db.collection("post").document(arrayList.get(pos).getPostID());
 
@@ -563,7 +559,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
 
                                         Log.d("CustomAdapter", "DocumentSnapshot successfully deleted!");
-                              //      }
+                                        //      }
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -579,7 +575,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     }
 
 
-//친구 삭제
+    //친구 삭제
     public void FriendsDelete(final View view, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
@@ -625,9 +621,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                         FirebaseStorage storage = FirebaseStorage.getInstance();
                         final StorageReference storageRef = storage.getReference();
 
-                        String[] splitText =  arrayList.get(position).getPostID().split("_");
+                        String[] splitText = arrayList.get(position).getPostID().split("_");
 
-                        Log.d("splitText", "onClick: splitText의값은"+splitText[0]+"_"+splitText[1]);
+                        Log.d("splitText", "onClick: splitText의값은" + splitText[0] + "_" + splitText[1]);
 
 
                         String image[] = new String[5];
@@ -638,10 +634,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                         image[3] = arrayList.get(position).getImageUrl1();
                         image[4] = arrayList.get(position).getImageUrl1();
 
-                        for(int i=0; i<5; i++) {
+                        for (int i = 0; i < 5; i++) {
 
-                            if (image[i]!=null) {
-                                StorageReference desertRef = storageRef.child("images/" + splitText[0] + "_" + splitText[1] + "_postImg_"+i);
+                            if (image[i] != null) {
+                                StorageReference desertRef = storageRef.child("images/" + splitText[0] + "_" + splitText[1] + "_postImg_" + i);
 
                                 Log.d("날짜정보", "onClick: 날짜 정보" + arrayList.get(position).getDate());
                                 Log.d("날짜정보", "onClick: 날짜 정보" + arrayList.get(position).getDate() + "_postImg_0");
@@ -684,15 +680,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                                         Log.d("확인", "리스너 작동");
 
 
-                                        /*핸들러 딜레이 */
-//                                        Handler mHandler = new Handler();
-//                                        mHandler.postDelayed(new Runnable() {
-//                                            public void run() {
-//
-//                                            }
-//                                        }, 500);
-
-
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -713,151 +700,5 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
-
-    public void shared(){
-
-//
-//        Task<ShortDynamicLink> dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-//                .setLink(Uri.parse("https://hyeokpetstory.page.link/222"))
-//                .setDomainUriPrefix("https://hyeokpetstory.page.link")
-//                .setAndroidParameters(
-//                        new DynamicLink.AndroidParameters.Builder("com.example.petdiary")
-//                                .setMinimumVersion(125)
-//                                .build())
-//                .setIosParameters(
-//                        new DynamicLink.IosParameters.Builder("com.example.ios")
-//                                .setAppStoreId("123456789")
-//                                .setMinimumVersion("1.0.1")
-//                                .build())
-//                .setGoogleAnalyticsParameters(
-//                        new DynamicLink.GoogleAnalyticsParameters.Builder()
-//                                .setSource("orkut")
-//                                .setMedium("social")
-//                                .setCampaign("example-promo")
-//                                .build())
-//                .setItunesConnectAnalyticsParameters(
-//                        new DynamicLink.ItunesConnectAnalyticsParameters.Builder()
-//                                .setProviderToken("123456")
-//                                .setCampaignToken("example-promo")
-//                                .build())
-//                .setSocialMetaTagParameters(
-//                        new DynamicLink.SocialMetaTagParameters.Builder()
-//                                .setTitle("Example of a Dynamic Link")
-//                                .setDescription("This link works whether the app is installed or not!")
-//                                .build())
-//                .buildShortDynamicLink()
-//                .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
-//                        if (task.isSuccessful()) {
-//                            Uri shortLink = task.getResult().getShortLink();
-//                            try {
-//                                Intent sendIntent = new Intent();
-//                                sendIntent.setAction(Intent.ACTION_SEND);
-//                                sendIntent.putExtra(Intent.EXTRA_TEXT, shortLink.toString());
-//                                sendIntent.setType("text/plain");
-//                                context.startActivity(Intent.createChooser(sendIntent, "Share"));
-//                            } catch (ActivityNotFoundException ignored) {
-//                            }
-//                        } else {
-//                            Log.w("dsds", task.toString());
-//                        }
-//                    }
-//                });
-
-
-//        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
-//                .setLink(Uri.parse("https://www.example.com/222"))
-//                .setDomainUriPrefix("https://hyeokpetstory.page.link")
-//                .setAndroidParameters(
-//                        new DynamicLink.AndroidParameters.Builder("com.example.petdiary")
-//                                .build())
-//                .setGoogleAnalyticsParameters(
-//                        new DynamicLink.GoogleAnalyticsParameters.Builder()
-//                                .setSource("orkut")
-//                                .setMedium("social")
-//                                .setCampaign("example-promo")
-//                                .build())
-//                .setItunesConnectAnalyticsParameters(
-//                        new DynamicLink.ItunesConnectAnalyticsParameters.Builder()
-//                                .setProviderToken("123456")
-//                                .setCampaignToken("example-promo")
-//                                .build())
-//                .buildShortDynamicLink()
-//                .addOnCompleteListener(activity, new OnCompleteListener<ShortDynamicLink>() {
-//                    @Override
-//
-//                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
-//                        if (task.isSuccessful()) {
-//                            // Short link created
-//                            Uri shortLink = task.getResult().getShortLink();
-//                            Log.d("ㅇㄴㅇㄴ", "onComplete: 성공!");
-//                            Uri flowchartLink = task.getResult().getPreviewLink();
-//                        } else {
-//                            Log.d("dsd", "오류");
-//
-//                            // Error
-//                            // ...
-//                        }
-//                    }
-//                });
-
-//
-
-
-//        FirebaseDynamicLinks.getInstance().createDynamicLink()
-//                .setLink(Uri.parse("http://number2/promotion?code=DF3DY1"))
-//                .setDomainUriPrefix("//hyeokpetstory.page.link")
-//                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
-//
-//                .setAndroidParameters(
-//                        new DynamicLink.AndroidParameters.Builder("com.example.petdiary")
-//                                .setMinimumVersion(125)
-//                                .build())
-//                .setIosParameters(
-//                        new DynamicLink.IosParameters.Builder("com.example.ios")
-//                                .setAppStoreId("123456789")
-//                                .setMinimumVersion("1.0.1")
-//                                .build())
-//                .setGoogleAnalyticsParameters(
-//                        new DynamicLink.GoogleAnalyticsParameters.Builder()
-//                                .setSource("orkut")
-//                                .setMedium("social")
-//                                .setCampaign("example-promo")
-//                                .build())
-//                .setItunesConnectAnalyticsParameters(
-//                        new DynamicLink.ItunesConnectAnalyticsParameters.Builder()
-//                                .setProviderToken("123456")
-//                                .setCampaignToken("example-promo")
-//                                .build())
-//                .setSocialMetaTagParameters(
-//                        new DynamicLink.SocialMetaTagParameters.Builder()
-//                                .setTitle("Example of a Dynamic Link")
-//                                .setDescription("This link works whether the app is installed or not!")
-//                                .build())
-//
-//                .buildShortDynamicLink();
-//                .addOnCompleteListener((Executor) this, new OnCompleteListener<ShortDynamicLink>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
-//                        if (task.isSuccessful()) {
-//                            Uri shortLink = task.getResult().getShortLink();
-//                            try {
-//                                Intent sendIntent = new Intent();
-//                                sendIntent.setAction(Intent.ACTION_SEND);
-//                                sendIntent.putExtra(Intent.EXTRA_TEXT, shortLink.toString());
-//                                sendIntent.setType("text/plain");
-//                                context.startActivity(Intent.createChooser(sendIntent, "Share"));
-//                            } catch (ActivityNotFoundException ignored) {
-//                            }
-//                        } else {
-//                            Log.w("dsds", task.toString());
-//                        }
-//                    }
-//                });
-
-    }
-
 }
+

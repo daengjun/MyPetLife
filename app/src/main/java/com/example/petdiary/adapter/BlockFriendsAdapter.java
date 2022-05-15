@@ -1,5 +1,6 @@
 package com.example.petdiary.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.petdiary.info.BlockFriendInfo;
-import com.example.petdiary.ItemTouchHelperListener;
+import com.example.petdiary.util.ItemTouchHelperListener;
 import com.example.petdiary.R;
+import com.example.petdiary.util.callBackListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,27 +30,26 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class BlockFriendsAdapter extends RecyclerView.Adapter<BlockFriendsAdapter.ViewHolder> implements ItemTouchHelperListener , com.example.petdiary.calbacklistener{
+public class BlockFriendsAdapter extends RecyclerView.Adapter<BlockFriendsAdapter.ViewHolder> implements ItemTouchHelperListener , callBackListener {
 
     ArrayList<BlockFriendInfo> items = new ArrayList<BlockFriendInfo>();
     private OnItemClickListener mListener = null;
     private Context mContext;
-    com.example.petdiary.calbacklistener calbacklistener;
+    callBackListener callBackListener;
 
-    public BlockFriendsAdapter(Context mContext,com.example.petdiary.calbacklistener calbacklistener){
+    public BlockFriendsAdapter(Context mContext, callBackListener callBackListener){
         this.mContext = mContext;
-        this.calbacklistener = calbacklistener;
+        this.callBackListener = callBackListener;
     }
 
     @Override
     public void refresh(boolean check) {
-
     }
 
     public interface OnItemClickListener{
         void onItemClick(View v, int position);
-
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView textView;
         TextView nick;
@@ -80,7 +81,6 @@ public class BlockFriendsAdapter extends RecyclerView.Adapter<BlockFriendsAdapte
         }
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType){
@@ -91,7 +91,7 @@ public class BlockFriendsAdapter extends RecyclerView.Adapter<BlockFriendsAdapte
 
     }
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder , final int position){
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder , @SuppressLint("RecyclerView") final int position){
 
         final BlockFriendInfo item = items.get(position);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -135,14 +135,14 @@ public class BlockFriendsAdapter extends RecyclerView.Adapter<BlockFriendsAdapte
                                 //list items after the deleted item
                                 notifyItemRangeChanged(position, getItemCount());
                                 Toast.makeText(mContext, "차단해제 성공", Toast.LENGTH_SHORT).show();
-                                calbacklistener.refresh(true);
+                                callBackListener.refresh(true);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(mContext, "차단해제 실패", Toast.LENGTH_SHORT).show();
-                                calbacklistener.refresh(true);
+                                callBackListener.refresh(true);
                             }
                         });
             }
@@ -171,12 +171,9 @@ public class BlockFriendsAdapter extends RecyclerView.Adapter<BlockFriendsAdapte
     }
 
     public boolean onItemMove(int from_position, int to_position) {
-        //이동할 객체 저장
         BlockFriendInfo person = items.get(from_position);
-        //이동할 객체 삭제
-        items.remove(from_position); //이동하고 싶은 position에 추가
+        items.remove(from_position);
         items.add(to_position,person);
-        //Adapter에 데이터 이동알림
         notifyItemMoved(from_position,to_position);
         return true;
     }

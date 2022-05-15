@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.petdiary.calbacklistener;
+import com.example.petdiary.util.callBackListener;
 import com.example.petdiary.info.BlockFriendInfo;
 import com.example.petdiary.adapter.BlockFriendsAdapter;
-import com.example.petdiary.ItemTouchHelperCallback;
+import com.example.petdiary.util.ItemTouchHelperCallback;
 import com.example.petdiary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,9 +22,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class SettingBlockFriendsActivity extends AppCompatActivity implements calbacklistener {
+public class SettingBlockFriendsActivity extends AppCompatActivity implements callBackListener {
 
-    private static com.example.petdiary.calbacklistener calbacklistener;
+    private static callBackListener callBackListener;
     final private String TAG = "SettingBlock";
 
     @Override
@@ -49,7 +49,7 @@ public class SettingBlockFriendsActivity extends AppCompatActivity implements ca
                             recyclerView.setLayoutManager(layoutManager);
                             //recyclerView.addItemDecoration(new RecyclerViewDecoration(1));
 
-                            BlockFriendsAdapter adapter = new BlockFriendsAdapter(getApplicationContext(),calbacklistener);
+                            BlockFriendsAdapter adapter = new BlockFriendsAdapter(getApplicationContext(), callBackListener);
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String friendUid = document.getData().get("friendUid").toString();
@@ -66,9 +66,9 @@ public class SettingBlockFriendsActivity extends AppCompatActivity implements ca
 
     }
 
-    public static void setlistener(calbacklistener listener){
+    public static void setlistener(callBackListener listener){
 
-        calbacklistener = listener;
+        callBackListener = listener;
 
     }
 

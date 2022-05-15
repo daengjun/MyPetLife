@@ -1,9 +1,6 @@
 package com.example.petdiary.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,47 +13,39 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.petdiary.Data;
-import com.example.petdiary.Kon_MypageAdapter;
-import com.example.petdiary.Kon_Mypage_petAdapter;
-import com.example.petdiary.PetData;
-import com.example.petdiary.RecyclerDecoration;
+import com.example.petdiary.data.Data;
+import com.example.petdiary.activity.Kon_MypageAdapter;
+import com.example.petdiary.adapter.Kon_Mypage_petAdapter;
+import com.example.petdiary.data.PetData;
+import com.example.petdiary.util.RecyclerDecoration;
 import com.example.petdiary.activity.*;
 import com.bumptech.glide.Glide;
 import com.example.petdiary.R;
+import com.example.petdiary.util.callBackListener;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.security.auth.callback.Callback;
-
 import static android.app.Activity.RESULT_OK;
 
 
-public class FragmentMy extends Fragment implements com.example.petdiary.calbacklistener{
+public class FragmentMy extends Fragment implements callBackListener {
 
     private static final String TAG = "MyPage_Fragment";
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -119,7 +108,7 @@ public class FragmentMy extends Fragment implements com.example.petdiary.calback
         ImageView petAddBtn = viewGroup.findViewById(R.id.profile_petAddBtn);
         final ImageView profileImage = viewGroup.findViewById(R.id.profile_image);
 
-        SettingBookMarkActivity.setlistener(this);
+        SettingBookMarkActivity.setListener(this);
         SettingBlockFriendsActivity.setlistener(this);
 
         //////////////////////////////////// 유저 정보 가져오기
@@ -264,7 +253,6 @@ public class FragmentMy extends Fragment implements com.example.petdiary.calback
 
     //////////////////////////////////// 펫 정보 로드
     private void getPetInfo() {
-        Log.d("로그로그로그~~~~", "펫 정보 로드 시작" );
         //  유저
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
@@ -280,7 +268,6 @@ public class FragmentMy extends Fragment implements com.example.petdiary.calback
                         if (task.isSuccessful()) {
                             petList.clear();
 
-                            Log.d(TAG, "onComplete: 성공?");
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Map<String, Object> data = document.getData();
@@ -293,8 +280,6 @@ public class FragmentMy extends Fragment implements com.example.petdiary.calback
                                         data.get("master").toString());
                                 petList.add(pet);
 
-                                Log.d(TAG, "onComplete: 성공했다면 값은?" + petList.size());
-
                             }
 //                            petAdapter.notifyDataSetChanged();
 
@@ -302,9 +287,7 @@ public class FragmentMy extends Fragment implements com.example.petdiary.calback
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                         setPetRecyclerView();
-                        Log.d("로그로그로그~~~~", "바뀌기전: ");
                         petAdapter.notifyDataSetChanged();
-                        Log.d("로그로그로그~~~~", "바뀐후: ");
                     }
                 });
 
@@ -430,7 +413,6 @@ public class FragmentMy extends Fragment implements com.example.petdiary.calback
 
         int columnNum = 3;
         adapter = new Kon_MypageAdapter(postList, columnNum, getContext(),this);
-//        Log.d(TAG, "setPicRecyclerView: 씨발 여기서 넘어가나?"+postList.get(0).getPostID());
         recyclerView.setAdapter(adapter); // 리사이클러뷰에 어댑터 연결
         layoutManager = new GridLayoutManager(getContext(), columnNum);
         recyclerView.setLayoutManager(layoutManager);
@@ -445,29 +427,32 @@ public class FragmentMy extends Fragment implements com.example.petdiary.calback
 
         Log.d(TAG, "setPetRecyclerView: petList 사이즈값" + petList.size());
         petRecyclerView = (RecyclerView) viewGroup.findViewById(R.id.pet_recyclerView);
-        petRecyclerView.setHasFixedSize(true); // 리사이클러뷰 기존성능 강화
+        petRecyclerView.setHasFixedSize(true);
 
         int columnNum = 3;
         petAdapter = new Kon_Mypage_petAdapter(petList, getContext(), getActivity(), new StringCallback() {
             @Override
             public void callback(String choice) {
                 choicePetId = choice;
+
                 /* 동물 등록하고 나서 전체 데이터 새로고침 */
-                ((MainActivity)getActivity()).refresh(true);
-                if (choice.equals(""))
+//                ((MainActivity)getActivity()).refresh(true);
+
+                if (choice.equals("")) {
+                    Log.d("dangJunDebug", "callBack IF");
+
                     loadPostsAfterCheck(false);
-                else
+                }else{
                     loadSelectedPosts(choicePetId);
+                    Log.d("dangJunDebug", "callBack Else");
+
+                }
             }
         });
-        petRecyclerView.setAdapter(petAdapter); // 리사이클러뷰에 어댑터 연결
-        //layoutManager = new GridLayoutManager(getContext(), columnNum);
-        //petRecyclerView.setLayoutManager(layoutManager);
+        petRecyclerView.setAdapter(petAdapter);
+
         petAdapter.notifyDataSetChanged();
 
-        // 리사이클러뷰 간격추가
-        //RecyclerDecoration spaceDecoration = new RecyclerDecoration(10);
-        // petRecyclerView.addItemDecoration(spaceDecoration);
     }
 
 
@@ -476,7 +461,6 @@ public class FragmentMy extends Fragment implements com.example.petdiary.calback
     public void onResume() {
         super.onResume();
 //        loadPostsAfterCheck(true);
-        Log.d(TAG, "onResume: 여기탈텐데");
         getPetInfo();
         if(mSwipeRefreshLayout != null){
             if(contentCheck){

@@ -1,7 +1,5 @@
 package com.example.petdiary.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,17 +14,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.petdiary.Expand_ImageView;
+import com.example.petdiary.util.Expand_ImageView;
 import com.example.petdiary.activity.MainActivity;
 import com.example.petdiary.activity.SettingBlockFriendsActivity;
 import com.example.petdiary.activity.SettingBookMarkActivity;
 import com.example.petdiary.adapter.CustomAdapter;
-import com.example.petdiary.Data;
+import com.example.petdiary.data.Data;
 import com.example.petdiary.R;
-import com.example.petdiary.calbacklistener;
+import com.example.petdiary.util.callBackListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,7 +41,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 
-public class FragmentMain extends Fragment implements calbacklistener {
+public class FragmentMain extends Fragment implements callBackListener {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -60,9 +57,6 @@ public class FragmentMain extends Fragment implements calbacklistener {
     private ArrayList<String> like = new ArrayList<String>();
     private int firstCount;
     private DatabaseReference mDatabase;
-    
-
-    FragmentManager fm;
 
 
     @Nullable
@@ -85,7 +79,7 @@ public class FragmentMain extends Fragment implements calbacklistener {
 
         adapter = new CustomAdapter(arrayList, getContext(),this,(MainActivity)getActivity());
         recyclerView.setAdapter(adapter); // 리사이클러뷰에 어댑터 연결
-        SettingBookMarkActivity.setlistener(this);
+        SettingBookMarkActivity.setListener(this);
         SettingBlockFriendsActivity.setlistener(this);
 
 

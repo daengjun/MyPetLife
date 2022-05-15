@@ -11,16 +11,15 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.example.petdiary.R;
-import java.io.IOException;
+import com.example.petdiary.util.CameraAppActivity;
 
-import static androidx.core.content.PermissionChecker.PERMISSION_DENIED;
+import java.io.IOException;
 
 
 public class ImageChoicePopupActivity extends Activity {
@@ -33,7 +32,6 @@ public class ImageChoicePopupActivity extends Activity {
         setContentView(R.layout.activity_image_choice_popup);
     }
 
-
     public void goCamera(View v){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
@@ -44,8 +42,6 @@ public class ImageChoicePopupActivity extends Activity {
             }
         } else {
             myStartActivity(CameraAppActivity.class);
-
-
         }
     }
 
@@ -99,8 +95,6 @@ public class ImageChoicePopupActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-        //int exifDegree = exifOrientationToDegrees(exifOrientation);
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath);//경로를 통해 비트맵으로 전환
         return imagePath;
     }
@@ -123,21 +117,5 @@ public class ImageChoicePopupActivity extends Activity {
     private void startToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
-
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        //바깥레이어 클릭시 안닫히게
-//        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        //안드로이드 백버튼 막기
-//        return;
-//    }
-
 }
 

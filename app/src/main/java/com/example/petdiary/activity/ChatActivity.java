@@ -1,21 +1,7 @@
 package com.example.petdiary.activity;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ClipData;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,22 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.petdiary.MyAdapter;
-import com.example.petdiary.Person;
+import com.example.petdiary.adapter.MyAdapter;
 import com.example.petdiary.R;
-import com.example.petdiary.Chat;
-import com.example.petdiary.sub_ItemDecoration;
+import com.example.petdiary.data.Chat;
+import com.example.petdiary.util.sub_ItemDecoration;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,26 +35,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdReceiver;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
     private static final String TAG = "ChatMain";
@@ -249,18 +217,6 @@ public class ChatActivity extends AppCompatActivity {
                                 }
                             });
 
-//                    Calendar c = Calendar.getInstance();
-//                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
-//                    String datetime = dateformat.format(c.getTime());
-//
-//
-//                    DatabaseReference myRef = database.getReference("friend").child(user.getUid()).child("c0MwUsHrWaVyhKu8dXkV9SmolRE3").child("message").child(datetime);
-//
-//                    Hashtable<String, String> numbers
-//                            = new Hashtable<String, String>();
-//                    numbers.put("email", stEmail);
-//                    numbers.put("text", stText);
-//                    myRef.setValue(numbers);
 
                     recyclerView.post(new Runnable() {
                         @Override
@@ -280,7 +236,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /* 다중 선택 오류나서 기능 보류 */
 //                Intent intent = new Intent(ChatActivity.this, ImageChoicePopupActivity2.class);
-           Intent intent = new Intent(ChatActivity.this, ImageChoicePopupActivity2.class);
+           Intent intent = new Intent(ChatActivity.this, ImageChoicePopupActivity.class);
 
                 startActivityForResult(intent, 0);
             }
@@ -351,19 +307,6 @@ public class ChatActivity extends AppCompatActivity {
                                 });
 
 
-//                        database = FirebaseDatabase.getInstance();
-//                        Calendar c = Calendar.getInstance();
-//                        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss" + "_" + i);
-//                        String datetime = dateformat.format(c.getTime());
-//
-//                        DatabaseReference myRef = database.getReference("message").child(datetime);
-//
-//                        Hashtable<String, String> numbers
-//                                = new Hashtable<String, String>();
-//                        numbers.put("email", stEmail);
-//                        numbers.put("image", sImg[i] + "");
-//                        myRef.setValue(numbers);
-
                         recyclerView.post(new Runnable() {
                             @Override
                             public void run() {
@@ -385,10 +328,6 @@ public class ChatActivity extends AppCompatActivity {
                 Calendar c = Calendar.getInstance();
                 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
                 String datetime = dateformat.format(c.getTime());
-
-//                DatabaseReference myRef = database.getReference("message").child(datetime);
-//                DatabaseReference myRef = database.getReference("chat").child(user.getUid() + "&" + document.getId()).child("message").child(datetime);
-//                DatabaseReference dr = database.getReference("chat").child(document.getId() + "&" + user.getUid()).child("message").child(datetime);
 
                 db.collection("users")
                         .get()
@@ -425,16 +364,6 @@ public class ChatActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
-
-
-
-//                Hashtable<String, String> numbers
-//                        = new Hashtable<String, String>();
-//                numbers.put("email", stEmail);
-//                numbers.put("image", ca);
-//                myRef.setValue(numbers);
-//                Log.d(TAG, "onActivityResult: ca232323123213122" + ca);
 
                 recyclerView.post(new Runnable() {
                     @Override

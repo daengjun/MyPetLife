@@ -6,28 +6,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.petdiary.MyFireBaseMessagingService;
 import com.example.petdiary.R;
 import com.example.petdiary.fragment.*;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,9 +26,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
@@ -45,15 +33,9 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             /* 어플 실행 할때 애니메이션 할당 */
 //        findViewById(R.id.splish).animate().scaleX(1.2f).scaleY(1.2f).setDuration(3500).start();
 
-        Intent fcm = new Intent(getApplicationContext(), FirebaseMessagingService.class);
+       Intent fcm = new Intent(getApplicationContext(), FirebaseMessagingService.class);
         startService(fcm);
 
         getSupportActionBar().hide();
@@ -119,13 +101,9 @@ public class MainActivity extends AppCompatActivity {
         toolbarNickName = findViewById(R.id.toolbar_nickName);
         genter_icon = findViewById(R.id.genter_icon);
 
-
-//        String action = intent.getAction();
         Uri data = intent.getData();
 
         if (data != null)
-            Log.d(TAG, "onCreate: 여기타니" + data.toString());
-
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -139,10 +117,6 @@ public class MainActivity extends AppCompatActivity {
                         String token = task.getResult();
 
                         Log.d(TAG, "onComplete: " + token);
-//                        // Log and toast
-//                        String msg = getString(R.string.msg_token_fmt, token);
-//                        Log.d(TAG, msg);
-//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -175,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
                         }
 
-
                         // Handle the deep link. For example, open the linked
                         // content, or apply promotional credit to the user's
                         // account.
@@ -193,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (user == null) {
             /* 로그인 페이지로 이동 */
-            myStartActivity(LoginActivity.class);
+            myStartActivityFlag(LoginActivity.class);
             finish();
         } else {
             /* 자동로그인 확인 */
@@ -207,23 +180,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void bookMarkOnClick(View view){
-        myStartActivity2(SettingBookMarkActivity.class);
+        myStartActivity(SettingBookMarkActivity.class);
     }
 
     public void blockFriendOnClick(View view) {
-        myStartActivity2(SettingBlockFriendsActivity.class);
+        myStartActivity(SettingBlockFriendsActivity.class);
     }
 
     public void noticeOnClick(View view){
-        myStartActivity2(SettingNotificationActivity.class);
+        myStartActivity(SettingNotificationActivity.class);
     }
 
     public void passwordSetOnClick(View view){
-        myStartActivity2(LoginConfirmActivity.class, "setPassword");
+        myStartActivity(LoginConfirmActivity.class, "setPassword");
     }
 
     public void customerCenterOnClick(View view){
-        myStartActivity2(SettingCustomerActivity.class);
+        myStartActivity(SettingCustomerActivity.class);
     }
 
     public void logOutOnClick(View view){
@@ -231,12 +204,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void unRegisterOnClick(View view){
-        myStartActivity2(LoginConfirmActivity.class, "out");
+        myStartActivity(LoginConfirmActivity.class, "out");
         //startToast("회원탈퇴");
     }
 
     public void AppInfoOnClick(View view){
-        myStartActivity2(SettingAppInfoActivity.class);
+        myStartActivity(SettingAppInfoActivity.class);
         //startToast("앱 정보");
     }
 
@@ -266,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onDrawerOpened(@NonNull View drawerView) {
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         }
 
         @Override
@@ -421,9 +394,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*새로고침 메서드*/
-    public void MainreplaceFragment(boolean check){
-        Log.d(TAG, "MainreplaceFragment: 여기동작?");
+    /********** 새로고침 메서드 ***********/
+
+    public void mainReplaceFragment(boolean check){
         if(fragmentNewPost!=null) {
             fragmentManager.beginTransaction().remove(fragmentNewPost).commit();
             fragmentNewPost = null;
@@ -448,8 +421,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void New_replaceFragment(boolean check){
-        Log.d(TAG, "New_replaceFragment: 여기동작");
+    public void uploadReplaceFragment(boolean check){
         if(fragmentNewPost != null){
             fragmentManager.beginTransaction().show(fragmentNewPost).commit();
         }
@@ -472,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void contain_replaceFragment(boolean check){
+    public void containReplaceFragment(boolean check){
         if(fragmentContentMain != null){
             fragmentManager.beginTransaction().show(fragmentContentMain).commit();
         }
@@ -495,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void SubreplaceFragment(boolean check){
+    public void subReplaceFragment(boolean check){
         if(fragmentSub != null){
             fragmentManager.beginTransaction().show(fragmentSub).commit();
             fragmentSub.refresh();
@@ -520,7 +492,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void My_replaceFragment(boolean check){
+    public void myReplaceFragment(boolean check){
         if(fragmentNewPost!=null) {
             fragmentManager.beginTransaction().remove(fragmentNewPost).commit();
             fragmentNewPost = null;
@@ -558,17 +530,17 @@ public class MainActivity extends AppCompatActivity {
         return err;
     }
 
-    private void myStartActivity2(Class c) {
+    private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         startActivity(intent);
     }
-    private void myStartActivity2(Class c, String s) {
+    private void myStartActivity(Class c, String s) {
         Intent intent = new Intent(this, c);
         intent.putExtra("setting", s);
         startActivity(intent);
     }
 
-    private void myStartActivity(Class c) {
+    private void myStartActivityFlag(Class c) {
         Intent intent = new Intent(this, c);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -593,7 +565,7 @@ public class MainActivity extends AppCompatActivity {
                             if (isValidPassword(password)) {
                                 setFirst();
                             } else {
-                                myStartActivity(SetPasswordActivity.class);
+                                myStartActivityFlag(SetPasswordActivity.class);
                                 finish();
                             }
                         } else {
@@ -614,7 +586,7 @@ public class MainActivity extends AppCompatActivity {
     private long backKeyPressedTime = 0;
     private Toast toast;
 
-
+    @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(drawerView)){
             drawerLayout.closeDrawer(drawerView);
@@ -635,25 +607,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-    /* 해쉬 키값 가져오는 메서드 */
-//    private void getAppKeyHash() {
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md;
-//                md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                String something = new String(Base64.encode(md.digest(), 0));
-//                Log.e("Hash key", something);
-//            }
-//        } catch (Exception e) {
-//            // TODO Auto-generated catch block
-//            Log.e("name not found", e.toString());
-//        }
-//    }
-
 
     public void updateMainContent() {
         fragmentMain.setInfo();
@@ -685,28 +638,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void refresh(boolean check) {
         Log.d(TAG, "refresh: " + menu.findItem(R.id.tab2).isChecked());
 
         if (menu.findItem(R.id.tab1).isChecked()){
-        MainreplaceFragment(check);
+        mainReplaceFragment(check);
 
         }
         else if(menu.findItem(R.id.tab2).isChecked()){
-            SubreplaceFragment(check);
+            subReplaceFragment(check);
         }
         else if(menu.findItem(R.id.tab3).isChecked()){
-             New_replaceFragment(check);
+             uploadReplaceFragment(check);
         }
         else if(menu.findItem(R.id.tab4).isChecked()){
-            My_replaceFragment(check);
+            myReplaceFragment(check);
         }
 
         else if(menu.findItem(R.id.tab5).isChecked()){
-            contain_replaceFragment(check);
+            containReplaceFragment(check);
         }
 
     }
-
 
 }

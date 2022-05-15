@@ -52,7 +52,7 @@
             app:layout_constraintTop_toBottomOf="@+id/nickChat"
             app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/tvChat"
-            android:background="@drawable/chat_bubble"
+            android:background="@drawable/chat_shapedrawable_bg"
             android:padding="10dp"
             android:layout_marginStart="5dp"
             android:visibility="visible"

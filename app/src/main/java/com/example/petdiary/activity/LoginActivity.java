@@ -45,10 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.activity_toolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         sessionCallback = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallback);
         Session.getCurrentSession().checkAndImplicitOpen();
@@ -67,14 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()){
                 case R.id.loginButton:
-                    //Log.e("클릭", "클릭");
                     login();
                     break;
                 case R.id.signUpButton:
                     startSignUpActivity();
                     break;
                 case R.id.findPasswordButton:
-                    //startToast("비밀번호 찾기");
                     startFindPasswordActivity();
                     break;
             }
@@ -224,7 +218,6 @@ public class LoginActivity extends AppCompatActivity {
                         needsScopeAutority = needsScopeAutority + "이메일";
                     }
 
-
                     Intent intent = new Intent(getApplicationContext(), KakaoSignUpActivity.class);
                     intent.putExtra("nickName", result.getNickname());
                     intent.putExtra("profile", result.getProfileImagePath());
@@ -234,10 +227,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("email", result.getKakaoAccount().getEmail());
                         Log.e("###", result.getKakaoAccount().getEmail());
                     }
-
-
                     startActivity(intent);
-                    //finish();
                 }
             });
         }

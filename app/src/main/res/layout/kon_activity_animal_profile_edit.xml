@@ -20,7 +20,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="20dp"
-            android:src="@drawable/more" />
+            android:src="@drawable/icon_more" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/animalPage_CardView"
@@ -40,7 +40,7 @@
                 android:layout_height="146dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/paw"
+                android:src="@drawable/icon_paw"
 
                 />
         </androidx.cardview.widget.CardView>
@@ -124,7 +124,7 @@
     </LinearLayout>
 
     <include
-        layout="@layout/view_loader"
+        layout="@layout/loading_prograssbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>

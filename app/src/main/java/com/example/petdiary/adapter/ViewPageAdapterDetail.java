@@ -2,11 +2,8 @@ package com.example.petdiary.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,9 +12,8 @@ import android.widget.LinearLayout;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
-import com.example.petdiary.Data;
-import com.example.petdiary.Main_Expand_ImageView;
-import com.example.petdiary.OnSingleClickListener;
+import com.example.petdiary.activity.imageViewActivity;
+import com.example.petdiary.util.OnSingleClickListener;
 import com.example.petdiary.R;
 
 import java.util.ArrayList;
@@ -89,7 +85,6 @@ public class ViewPageAdapterDetail extends PagerAdapter {
             v.setOnClickListener(new OnSingleClickListener(){
                 public void onSingleClick(View v){
                     Log.e("###", position+"");
-                    Log.d("ㅇㄴㅇ", "onSingleClick: 여기 타긴탐?");
                     goPost(position, image.get(position));
                 }
             });
@@ -102,10 +97,7 @@ public class ViewPageAdapterDetail extends PagerAdapter {
     }
 
     private void goPost(int currentItem, String url1){
-        final Intent intent = new Intent(context, Main_Expand_ImageView.class);
-
-        Log.d("ds", "goPost: image" + image.size());
-        Log.d("dsd", "goPost: position" + currentItem);
+        final Intent intent = new Intent(context, imageViewActivity.class);
 
         intent.putExtra("currentItem", currentItem);
         intent.putExtra("imageUrl1", url1);

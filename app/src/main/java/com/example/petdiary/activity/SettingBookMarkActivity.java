@@ -9,12 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.petdiary.RecyclerDecorationWidth;
 import com.example.petdiary.adapter.CustomAdapterSub;
-import com.example.petdiary.Data;
+import com.example.petdiary.data.Data;
 import com.example.petdiary.R;
-import com.example.petdiary.calbacklistener;
-import com.example.petdiary.sub_ItemDecoration;
+import com.example.petdiary.util.callBackListener;
+import com.example.petdiary.util.sub_ItemDecoration;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,12 +23,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 
-public class SettingBookMarkActivity extends AppCompatActivity implements calbacklistener{
+public class SettingBookMarkActivity extends AppCompatActivity implements callBackListener {
 
-    private static calbacklistener calbacklistener;
+    private static callBackListener callBackListener;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -49,10 +47,10 @@ public class SettingBookMarkActivity extends AppCompatActivity implements calbac
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존성능 강화
+        recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
-        arrayList = new ArrayList<>(); // User 객체를 담을 어레이 리스트 (어댑터쪽으로)
+        arrayList = new ArrayList<>();
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -110,15 +108,15 @@ public class SettingBookMarkActivity extends AppCompatActivity implements calbac
                     }
                 });
 
-        adapter = new CustomAdapterSub(arrayList, getApplicationContext(),calbacklistener);
+        adapter = new CustomAdapterSub(arrayList, getApplicationContext(), callBackListener);
         recyclerView.addItemDecoration(new sub_ItemDecoration(getApplicationContext(),5));
-        recyclerView.setAdapter(adapter); // 리사이클러뷰에 어댑터 연결
+        recyclerView.setAdapter(adapter);
 
     }
 
-    public static void setlistener(calbacklistener listener){
+    public static void setListener(callBackListener listener){
 
-        calbacklistener = listener;
+        callBackListener = listener;
 
     }
 

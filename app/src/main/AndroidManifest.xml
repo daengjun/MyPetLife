@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".App"
+        android:name=".util.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_main"
         android:label="@string/app_name"
@@ -29,7 +29,7 @@
             <tools:validation testUrl="https://petpetpet.com" />
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
@@ -52,10 +52,12 @@
         <activity
             android:name=".activity.UserPageActivity"
             android:parentActivityName=".activity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ContentEditActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.KakaoSignUpActivity" />
         <activity
@@ -64,6 +66,7 @@
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.SignUpActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:parentActivityName=".activity.LoginActivity" />
         <activity
@@ -84,8 +87,8 @@
             android:name=".activity.ImageChoicePopupActivity2"
             android:theme="@android:style/Theme.Dialog"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CameraAppActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CameraAppActivity2" android:screenOrientation="portrait"/>
+        <activity android:name=".util.CameraAppActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".util.CameraAppActivity2" android:screenOrientation="portrait"/>
         <activity android:name=".activity.ProfileEditActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.kon_AnimalProfileActivity" android:screenOrientation="portrait"/>
         <activity
@@ -121,10 +124,10 @@
             android:theme="@android:style/Theme.Dialog"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".Expand_ImageView" android:screenOrientation="portrait"/>
-        <activity android:name=".Expand_ImageView2" android:screenOrientation="portrait"/>
-        <activity android:name=".Comment" android:screenOrientation="portrait"/>
-        <activity android:name=".Main_Expand_ImageView" android:screenOrientation="portrait" />
+        <activity android:name=".util.Expand_ImageView" android:screenOrientation="portrait"/>
+        <activity android:name=".util.Expand_ImageView2" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CommentActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.imageViewActivity" android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -137,7 +140,7 @@
         </provider>
 
         <service
-            android:name=".MyFireBaseMessagingService"
+            android:name=".util.MyFireBaseMessagingService"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

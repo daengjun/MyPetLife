@@ -28,16 +28,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-//edit쪽 수정 필요
 
 public class ProfileEditActivity extends AppCompatActivity {
     ImageView editIcon;
@@ -66,7 +61,7 @@ public class ProfileEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_edit);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
         editIcon = findViewById(R.id.userPage_editIcon);
         userImage = findViewById(R.id.userPage_Image);
@@ -164,7 +159,6 @@ public class ProfileEditActivity extends AppCompatActivity {
             case 0: // 갤러리에서 이미지 선택시
                 if (resultCode == RESULT_OK) {
 
-                    Log.d("갤러리에서 사진을 선택했따.", "onActivityResult: ");
                     postImgPath = data.getStringExtra("postImgPath");
                     setProfileImg(postImgPath);
                 }

@@ -13,7 +13,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@drawable/button"/>
+        android:background="@drawable/button_shapedrawable_padding"/>
 
     <View
         android:id="@+id/hidden_Square"
@@ -24,7 +24,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/button"
+        android:background="@drawable/button_shapedrawable_padding"
         android:visibility="invisible"/>
 
     <View
@@ -35,7 +35,7 @@
         android:layout_above="@+id/third_Square"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/button"/>
+        android:background="@drawable/button_shapedrawable_padding"/>
 
     <View
         android:id="@+id/third_Square"
@@ -44,7 +44,7 @@
         android:layout_below="@+id/main_textView"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:background="@drawable/button"/>
+        android:background="@drawable/button_shapedrawable_padding"/>
 
     <!---메인 타임라인화면-->
     <TextView
@@ -66,7 +66,7 @@
         android:layout_alignParentTop="true"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@drawable/more"/>
+        android:background="@drawable/icon_more"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/Profile_image"
@@ -111,7 +111,7 @@
 
     <TextView
         android:textSize="15dp"
-        android:fontFamily="@font/font2"
+        android:fontFamily="@font/yanolza_font"
         android:id="@+id/main_textView"
         android:text="하이히앟잏ㄴㅇㅎㅇㅎㄴㅇㅎㄴㅇㄹㄴㅇㄹ"
         android:layout_marginBottom="10dp"
@@ -185,7 +185,7 @@
         android:layout_toLeftOf="@+id/layout"
         android:layout_width="70dp"
         android:layout_height="60dp"
-        android:background="@drawable/bookmark_check"/>
+        android:background="@drawable/bookmark"/>
 
     <RelativeLayout
         android:id="@+id/layout"

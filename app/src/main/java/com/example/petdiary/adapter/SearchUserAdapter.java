@@ -1,5 +1,6 @@
 package com.example.petdiary.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.petdiary.activity.UserPageActivity;
 import com.example.petdiary.info.BlockFriendInfo;
-import com.example.petdiary.ItemTouchHelperListener;
+import com.example.petdiary.util.ItemTouchHelperListener;
 import com.example.petdiary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -83,7 +83,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
 
     }
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder , final int position){
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder , @SuppressLint("RecyclerView") final int position){
 
         final BlockFriendInfo item = items.get(position);
         FirebaseFirestore db = FirebaseFirestore.getInstance();

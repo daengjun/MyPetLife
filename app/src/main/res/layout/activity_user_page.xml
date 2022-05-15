@@ -61,7 +61,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_alignParentRight="true"
                     android:textSize="15sp"
-                    android:background="@drawable/button2"
+                    android:background="@drawable/button_shapedrawable_padding_basic"
                     android:id="@+id/addFriend"/>
 
                 <!-- ========================================== profile memo -->
@@ -134,7 +134,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
-        layout="@layout/view_loader"
+        layout="@layout/loading_prograssbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"/>

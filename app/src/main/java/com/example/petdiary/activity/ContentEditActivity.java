@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,17 +23,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import com.example.petdiary.R;
-import com.example.petdiary.calbacklistener;
+import com.example.petdiary.util.callBackListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -48,11 +42,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 public class ContentEditActivity extends AppCompatActivity{
     private static final String TAG = "NewPost_Fragment";
-    private static com.example.petdiary.calbacklistener calbacklistener;
+    private static callBackListener callBackListener;
 
     ImageView[] postImg = new ImageView[5];
     ImageView[] deletePostImg = new ImageView[5];
@@ -70,6 +63,7 @@ public class ContentEditActivity extends AppCompatActivity{
     private String Category;
     private String Content;
     private String PostID;
+    private int categoryCount;
 
     ArrayList<String> items;
     ArrayList<String> petsID;
@@ -78,7 +72,6 @@ public class ContentEditActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_edit);
-
 
         Intent intent = getIntent();
         imageUrl1 = intent.getStringExtra("imageUrl1");
@@ -89,13 +82,12 @@ public class ContentEditActivity extends AppCompatActivity{
         Category = intent.getStringExtra("category");
         Content = intent.getStringExtra("content");
         PostID = intent.getStringExtra("postID");
-
-        Log.d("ddddddd", "onCreate: 포스트아이디"+PostID);
-
         items = new ArrayList<String>();
         petsID = new ArrayList<String>();
         items.add("전체");
         petsID.add("ALL");
+
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("pets/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/pets")
                 .get()
@@ -106,12 +98,15 @@ public class ContentEditActivity extends AppCompatActivity{
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 items.add(document.getData().get("petName").toString());
                                 petsID.add(document.getId());
+                                categoryCount = items.size();
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
+
+
         spinner = (Spinner) findViewById(R.id.categorySpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, items);
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, itemss);
@@ -131,9 +126,6 @@ public class ContentEditActivity extends AppCompatActivity{
         });
 
         //카테고리 정보 불러오기
-
-
-
 
         contentsLengthTextView = (TextView) findViewById(R.id.contentsLengthTextView);
         contents = (EditText) findViewById(R.id.contents);
@@ -215,17 +207,11 @@ public class ContentEditActivity extends AppCompatActivity{
             setPostImg(postImgPath[3]);
         }
         if(!imageUrl5.equals("")) {
-            Log.d("@@##", "onCreate: 이미지url"+ imageUrl5);
             postImgCheck[4] = 0;
             choiceNum = 4;
             setPostImg(postImgPath[4]);
         }
     }
-
-
-
-
-
 
     View.OnClickListener onClickListener = new View.OnClickListener(){
 
@@ -288,7 +274,7 @@ public class ContentEditActivity extends AppCompatActivity{
         }
         if(count == 1){
             postImgCheck[0] = 0;
-            postImg[0].setImageResource(R.drawable.ic_baseline_add_24);
+            postImg[0].setImageResource(R.drawable.ic_add);
             deletePostImg[0].setVisibility(View.INVISIBLE);
             img[0] = null;
         } else {
@@ -297,7 +283,7 @@ public class ContentEditActivity extends AppCompatActivity{
                 Glide.with(getApplicationContext()).load(img[i-1]).centerCrop().override(500).into(postImg[i-1]);
             }
             postImgCheck[count-1] = 0;
-            postImg[count-1].setImageResource(R.drawable.ic_baseline_add_24);
+            postImg[count-1].setImageResource(R.drawable.ic_add);
             deletePostImg[count-1].setVisibility(View.INVISIBLE);
             img[count-1] = null;
         }
@@ -330,7 +316,7 @@ public class ContentEditActivity extends AppCompatActivity{
                     String postImgPath = data.getStringExtra("postImgPath");
                     setPostImg(postImgPath);
                 } else if(resultCode == RESULT_CANCELED) {
-                    Log.e("postImgPath", "실패!");
+                    Log.e("postImgPath", "fail");
                 }
                 break;
         }
@@ -388,9 +374,6 @@ public class ContentEditActivity extends AppCompatActivity{
     private ArrayList<String> hashTag;
 
     private void post(){
-
-        Log.v("dsdsdsdsds", "포스트 탑니까");
-
         num = 0;
         //category = spinner.getSelectedItem().toString();
         content = ((EditText) findViewById(R.id.contents)).getText().toString();
@@ -429,7 +412,6 @@ public class ContentEditActivity extends AppCompatActivity{
     private void startToast(String msg){
         Toast.makeText(this.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-
 
 
     private void saveImage(){
@@ -631,11 +613,8 @@ public class ContentEditActivity extends AppCompatActivity{
 
     }
 
-
-    public static void setlistener(calbacklistener listener){
-
-        calbacklistener = listener;
-
+    public static void setListener(callBackListener listener){
+        callBackListener = listener;
     }
 
 
@@ -696,7 +675,7 @@ public class ContentEditActivity extends AppCompatActivity{
 
                                 setResult(RESULT_OK, intent);
                                 finish();
-                                calbacklistener.refresh(true);
+                                callBackListener.refresh(true);
 
 
                             }
@@ -720,7 +699,7 @@ public class ContentEditActivity extends AppCompatActivity{
 
                             setResult(RESULT_OK, intent);
                             finish();
-                            calbacklistener.refresh(true);
+                            callBackListener.refresh(true);
 
 
                         }
@@ -744,7 +723,7 @@ public class ContentEditActivity extends AppCompatActivity{
 
                                 setResult(RESULT_OK, intent);
                                 finish();
-                                calbacklistener.refresh(true);
+                                callBackListener.refresh(true);
 
 
                             }
@@ -768,7 +747,7 @@ public class ContentEditActivity extends AppCompatActivity{
 
                                 setResult(RESULT_OK, intent);
                                 finish();
-                                calbacklistener.refresh(true);
+                                callBackListener.refresh(true);
 
 
 
@@ -792,7 +771,7 @@ public class ContentEditActivity extends AppCompatActivity{
 
                             setResult(RESULT_OK, intent);
                             finish();
-                            calbacklistener.refresh(true);
+                            callBackListener.refresh(true);
 
                         }
                     }
@@ -817,15 +796,9 @@ public class ContentEditActivity extends AppCompatActivity{
 
                             setResult(RESULT_OK, intent);
                             finish();
-                            calbacklistener.refresh(true);
+                            callBackListener.refresh(true);
 
                         }
-
-//                        MainActivity updateContent = new MainActivity();
-//                        updateContent.replaceFragment(true);
-
-
-
 
                     }
                 })

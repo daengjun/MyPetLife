@@ -18,18 +18,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.petdiary.Expand_ImageView;
-import com.example.petdiary.sub_ItemDecoration;
+import com.example.petdiary.util.Expand_ImageView;
+import com.example.petdiary.util.sub_ItemDecoration;
 import com.example.petdiary.activity.MainActivity;
 import com.example.petdiary.activity.SettingBlockFriendsActivity;
 import com.example.petdiary.activity.SettingBookMarkActivity;
-import com.example.petdiary.calbacklistener;
+import com.example.petdiary.util.callBackListener;
 import com.example.petdiary.info.BlockFriendInfo;
 import com.example.petdiary.adapter.CustomAdapterSub;
-import com.example.petdiary.Data;
-import com.example.petdiary.ItemTouchHelperCallback;
+import com.example.petdiary.data.Data;
+import com.example.petdiary.util.ItemTouchHelperCallback;
 import com.example.petdiary.R;
-import com.example.petdiary.RecyclerViewDecoration;
+import com.example.petdiary.util.RecyclerViewDecoration;
 import com.example.petdiary.adapter.SearchUserAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,7 +46,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class FragmentSub extends Fragment implements calbacklistener {
+public class FragmentSub extends Fragment implements callBackListener {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -59,7 +59,7 @@ public class FragmentSub extends Fragment implements calbacklistener {
     boolean check = true;
     private DatabaseReference mDatabase;
     private FirebaseDatabase firebaseDatabase;
-    calbacklistener calbacklistener;
+    callBackListener callBackListener;
     boolean contentCheck;
 
     @Nullable
@@ -68,7 +68,7 @@ public class FragmentSub extends Fragment implements calbacklistener {
 
         view = inflater.inflate(R.layout.fragment_sub, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_layout);
-        calbacklistener = this;
+        callBackListener = this;
         moveTop();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.sub_recyclerView);
@@ -80,7 +80,7 @@ public class FragmentSub extends Fragment implements calbacklistener {
         recyclerView.addItemDecoration(new sub_ItemDecoration(getContext(),5));
 
         //recyclerView.addItemDecoration(new RecyclerDecorationWidth(30));
-        SettingBookMarkActivity.setlistener(this);
+        SettingBookMarkActivity.setListener(this);
         SettingBlockFriendsActivity.setlistener(this);
 
         searchView = view.findViewById(R.id.search);
@@ -206,7 +206,7 @@ public class FragmentSub extends Fragment implements calbacklistener {
                                             }
                                         }
                                     });
-                            adapter = new CustomAdapterSub(arrayList, getContext(),calbacklistener);
+                            adapter = new CustomAdapterSub(arrayList, getContext(), callBackListener);
 
                             recyclerView.setAdapter(adapter); // 리사이클러뷰에 어댑터 연결
                         } else {
@@ -273,7 +273,7 @@ public class FragmentSub extends Fragment implements calbacklistener {
                                             }
                                         }
                                     });
-                            adapter = new CustomAdapterSub(arrayList, getContext(),calbacklistener);
+                            adapter = new CustomAdapterSub(arrayList, getContext(), callBackListener);
                             recyclerView.setAdapter(adapter); // 리사이클러뷰에 어댑터 연결
                         } else {
                             Log.d("###", "Error getting documents: ", task.getException());
@@ -315,8 +315,6 @@ public class FragmentSub extends Fragment implements calbacklistener {
         for(int i=0; i<arrayList.size(); i++){
             if (arrayList.get(i).getPostID().equals(postID)){
 
-                Log.d("sads", "getPostID: " + i);
-                Log.d("ㄴㅇㄴㅇ", "getPostID: 여기타는거 맞느?>");
                 final Intent intent = new Intent(getContext(), Expand_ImageView.class);
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
                 firebaseDatabase = FirebaseDatabase.getInstance();
@@ -389,7 +387,7 @@ public class FragmentSub extends Fragment implements calbacklistener {
                                                                 intent.putExtra("favoriteCount", arrayList.get(finalI).getFavoriteCount());
                                                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 getContext().startActivity(intent);
-                                                                Expand_ImageView.setlistener(calbacklistener);
+                                                                Expand_ImageView.setListener(callBackListener);
                                                             } else {
                                                                 Log.d("###", "Error getting documents: ", task.getException());
                                                             }

@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="10"
-            android:background="@drawable/button"
+            android:background="@drawable/button_shapedrawable_padding"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text="탈퇴"
                 android:padding="5dp"
-                android:background="@drawable/button2"
+                android:background="@drawable/button_shapedrawable_padding_basic"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"/>
 
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:text="취소"
                 android:padding="5dp"
-                android:background="@drawable/button2"
+                android:background="@drawable/button_shapedrawable_padding_basic"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"/>
 

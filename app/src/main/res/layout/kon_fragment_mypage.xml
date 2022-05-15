@@ -119,7 +119,6 @@
             </LinearLayout>
 
 
-            <!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -128,8 +127,6 @@
                 android:background="@color/colorPrimaryDark2"
                 android:outlineSpotShadowColor="@android:color/holo_blue_dark" />
 
-
-            <!-- ========================================== images -->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
@@ -143,14 +140,10 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
-        layout="@layout/view_loader"
+        layout="@layout/loading_prograssbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"/>
 
-    <!--
-    android:verticalSpacing="10dp"
-       android:columnWidth="100dp"
-       android:horizontalSpacing="10dp"-->
 
 </LinearLayout>

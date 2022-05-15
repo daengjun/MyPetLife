@@ -27,12 +27,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.petdiary.info.PostInfo;
 import com.example.petdiary.activity.*;
 import com.example.petdiary.R;
+import com.example.petdiary.util.callBackListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -58,7 +58,7 @@ import java.util.Date;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class FragmentNewPost extends Fragment implements com.example.petdiary.calbacklistener {
+public class FragmentNewPost extends Fragment implements callBackListener {
 
     private static final String TAG = "NewPost_Fragment";
 
@@ -131,7 +131,7 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
 
         setEmail();
 
-        SettingBookMarkActivity.setlistener(this);
+        SettingBookMarkActivity.setListener(this);
         SettingBlockFriendsActivity.setlistener(this);
 
         contentsLengthTextView = (TextView) viewGroup.findViewById(R.id.contentsLengthTextView);
@@ -200,7 +200,7 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
                 case R.id.postButton:
                     loaderLayout = viewGroup.findViewById(R.id.loaderLayout);
                     loaderLayout.setVisibility(View.VISIBLE);
-                    bg_touch(true);
+                    backgroundTouch(true);
                     post();
                     break;
                 case R.id.postImg1:
@@ -256,7 +256,7 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
         }
         if(count == 1){
             postImgCheck[0] = 0;
-            postImg[0].setImageResource(R.drawable.ic_baseline_add_24);
+            postImg[0].setImageResource(R.drawable.ic_add);
             deletePostImg[0].setVisibility(View.INVISIBLE);
             img[0] = null;
         } else {
@@ -265,7 +265,7 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
                 Glide.with(getContext()).load(img[i-1]).centerCrop().override(500).into(postImg[i-1]);
             }
             postImgCheck[count-1] = 0;
-            postImg[count-1].setImageResource(R.drawable.ic_baseline_add_24);
+            postImg[count-1].setImageResource(R.drawable.ic_add);
             deletePostImg[count-1].setVisibility(View.INVISIBLE);
             img[count-1] = null;
         }
@@ -517,13 +517,6 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
 
                         getActivity().setResult(RESULT_OK);
 
-//                        Handler mHandler = new Handler();
-//                                        mHandler.postDelayed(new Runnable() {
-//                                            public void run() {
-//
-//                                            }
-//                                        }, 3000);
-
                         ((MainActivity)getActivity()).updateMainContent();
 
                         Handler mHandler = new Handler();
@@ -535,7 +528,7 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
                             }
                         }, 1000);
 
-                        bg_touch(false);
+                        backgroundTouch(false);
 
                         bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
                         menu = bottomNavigationView.getMenu();
@@ -543,8 +536,6 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
                         menu.findItem(R.id.tab1).setChecked(true);
 
                         setDirEmpty();
-
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -587,9 +578,7 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
         contentCheck = check;
     }
 
-    public void bg_touch(boolean check){
-
-
+    public void backgroundTouch(boolean check){
 
         if(check){
 
@@ -601,8 +590,6 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
 
-
-
     }
 
     @Override
@@ -610,7 +597,6 @@ public class FragmentNewPost extends Fragment implements com.example.petdiary.ca
         super.onResume();
         if(spinner != null){
             if(contentCheck){
-                Log.d(TAG, "onResume: 여ㅋㅋㅋ기타나?");
                 ((MainActivity)getActivity()).refresh(contentCheck);
                 contentCheck = false;
             }

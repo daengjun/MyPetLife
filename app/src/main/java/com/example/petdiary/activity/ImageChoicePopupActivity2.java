@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.loader.content.CursorLoader;
 
 import com.example.petdiary.R;
+import com.example.petdiary.util.CameraAppActivity2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;

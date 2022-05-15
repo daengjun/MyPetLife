@@ -14,7 +14,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/button"/>
+        android:background="@drawable/button_shapedrawable_padding"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_profile"
@@ -85,7 +85,7 @@
         android:autoSizeTextType="uniform"
         android:layout_below="@id/comment_worm_dots_indicator"
         android:textColor="#000000"
-        android:fontFamily="@font/font2"
+        android:fontFamily="@font/yanolza_font"
         android:text="내용"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/button"/>
+        android:background="@drawable/button_shapedrawable_padding"/>
     <Button
         android:layout_centerInParent="true"
         android:id="@+id/input_button"

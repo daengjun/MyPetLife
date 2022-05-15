@@ -78,7 +78,7 @@ public class FindPasswordActivity extends AppCompatActivity {
                                                             }
                                                         }
                                                     });
-                                            Log.d("@@@", "성공");
+                                            Log.d("addOnCompleteListener", "success");
                                             startToast("비밀번호 재설정 이메일을 발송하였습니다.");
                                             finish();
                                         } else if(k == 0 && j == 0){

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +34,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -75,7 +73,7 @@ public class kon_AnimalProfileActivity extends AppCompatActivity {
         setContentView(R.layout.kon_activity_animal_profile_edit);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
         loaderLayout = findViewById(R.id.loaderLayout);
 
@@ -457,11 +455,9 @@ public class kon_AnimalProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
         // loaderLayout.setVisibility(View.INVISIBLE);
-
     }
 
     private void deleteData() {
@@ -497,10 +493,6 @@ public class kon_AnimalProfileActivity extends AppCompatActivity {
                         setEditMode(false);
                     }
                 });
-
-
-
-
         ///////////////////////////////////// 스토리지, 이미지 삭제
         // Create a storage reference from our app
         if(postImgPath == null || postImgPath.equals(""))
@@ -529,10 +521,6 @@ public class kon_AnimalProfileActivity extends AppCompatActivity {
                 // Uh-oh, an error occurred!
             }
         });
-
-
-
-
     }
 
 

@@ -14,7 +14,7 @@
         android:id="@+id/ivChat"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/chat_bubble"
+        android:background="@drawable/chat_shapedrawable_bg"
         android:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

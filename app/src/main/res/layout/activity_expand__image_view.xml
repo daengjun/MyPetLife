@@ -13,7 +13,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button"
+        android:background="@drawable/button_shapedrawable_padding"
         android:layout_marginRight="7dp"
         android:layout_marginLeft="7dp">
 
@@ -36,7 +36,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="25dp"
             android:layout_marginRight="2dp"
-            android:background="@drawable/more" />
+            android:background="@drawable/icon_more" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView_profile"
@@ -62,7 +62,7 @@
         android:id="@+id/scroll"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
-        android:background="@drawable/button"
+        android:background="@drawable/button_shapedrawable_padding"
         android:layout_width="match_parent"
         android:layout_height="405dp"
         android:focusable="true"
@@ -109,7 +109,7 @@
             android:layout_marginLeft="7dp"
             android:layout_marginTop="10dp"
             android:textColor="#000000"
-            android:fontFamily="@font/font2"
+            android:fontFamily="@font/yanolza_font"
             android:text="내용"
             android:layout_below="@id/worm_dots_indicator"
             android:layout_width="match_parent"
@@ -128,7 +128,7 @@
         android:layout_height="90dp"
         android:layout_marginRight="7dp"
         android:layout_marginLeft="7dp"
-        android:background="@drawable/button">
+        android:background="@drawable/button_shapedrawable_padding">
 
         <CheckBox
             android:button="@android:color/transparent"
@@ -179,7 +179,7 @@
             android:layout_width="70dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/bookmark_check"/>
+            android:background="@drawable/bookmark"/>
 
 
         <RelativeLayout
