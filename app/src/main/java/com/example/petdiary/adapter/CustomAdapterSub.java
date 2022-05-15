@@ -39,7 +39,7 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
 
     private ArrayList<Data> arrayList;
     private Context context;
-    callBackListener callbacklistenter;
+    callBackListener callBackListener;
     ViewPageAdapterSub viewPageAdapter;
     ViewPager viewPager;
     TextView textView;
@@ -50,10 +50,10 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
 
 
 
-    public CustomAdapterSub(ArrayList<Data> arrayList, Context context, callBackListener callbacklistenter) {
+    public CustomAdapterSub(ArrayList<Data> arrayList, Context context, callBackListener callBackListener) {
         this.arrayList = arrayList;
         this.context = context;
-        this.callbacklistenter = callbacklistenter;
+        this.callBackListener = callBackListener;
     }
 
     @NonNull
@@ -76,7 +76,7 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
         if(!arrayList.get(position).getImageUrl1().equals("https://firebasestorage.googleapis.com/v0/b/petdiary-794c6.appspot.com/o/images%2Fempty.png?alt=media&token=c41b1cc0-d610-4964-b00c-2638d4bfd8bd")) {
             cardView.setVisibility(View.VISIBLE);
             textView.setVisibility(View.GONE);
-            viewPageAdapter = new ViewPageAdapterSub(arrayList.get(position), arrayList.get(position).getImageUrl1(), context, callbacklistenter);
+            viewPageAdapter = new ViewPageAdapterSub(arrayList.get(position), arrayList.get(position).getImageUrl1(), context, callBackListener);
             viewPager.setAdapter(viewPageAdapter);
         }
         else{
@@ -196,7 +196,7 @@ public class CustomAdapterSub extends RecyclerView.Adapter<CustomAdapterSub.Cust
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                         context.startActivity(intent);
 
-                                                        Expand_ImageView.setListener(callbacklistenter);
+                                                        Expand_ImageView.setListener(callBackListener);
                                                     } else {
                                                         Log.d("###", "Error getting documents: ", task.getException());
                                                     }
